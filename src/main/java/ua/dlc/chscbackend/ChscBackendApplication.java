@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@PropertySource("file:${user.dir}/.env")
+//@PropertySource("file:${user.dir}/.env")
 public class ChscBackendApplication {
 
     public static void main(String[] args) {
