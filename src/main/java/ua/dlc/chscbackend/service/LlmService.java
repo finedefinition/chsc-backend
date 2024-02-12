@@ -27,7 +27,7 @@ public class LlmService {
         return this.webClient.post()
                 .uri("/chat/completions")
                 .bodyValue(Map.of(
-                        "model", "gpt-3.5-turbo",
+                        "model", "gpt-4-turbo-preview",
                         "messages", List.of(Map.of("role", "user", "content", userMessage)),
                         "temperature", 0.7
                 ))
