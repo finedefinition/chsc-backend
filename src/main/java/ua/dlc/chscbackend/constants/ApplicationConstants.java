@@ -10,7 +10,6 @@ public class ApplicationConstants {
 
     public static final LocalDateTime START_DATE = LocalDateTime
             .parse("2023-01-12T14:30:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
     public static final LocalDateTime END_DATE = LocalDateTime.now();
 
 //    public static final String  STATUS_201 = "201";

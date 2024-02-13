@@ -1,4 +1,4 @@
-package ua.dlc.chscbackend.dto;
+package ua.dlc.chscbackend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,10 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class CombinedResponse {
-    private ChatCompletionResponse chatCompletion;
+public class CombinedResponseDto {
+
+    private ChatCompletionResponseDto chatCompletion;
+
     private List<News> latestNews;
 
 }

@@ -1,4 +1,4 @@
-package ua.dlc.chscbackend.dto;
+package ua.dlc.chscbackend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatCompletionResponse {
+public class ChatCompletionResponseDto {
     private String id;
     private String object;
     private long created;

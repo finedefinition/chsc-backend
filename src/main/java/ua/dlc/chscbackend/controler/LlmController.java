@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import ua.dlc.chscbackend.constants.ApplicationConstants;
-import ua.dlc.chscbackend.dto.ChatCompletionResponse;
-import ua.dlc.chscbackend.dto.CombinedResponse;
-import ua.dlc.chscbackend.dto.UserMessage;
+import ua.dlc.chscbackend.dto.response.ChatCompletionResponseDto;
+import ua.dlc.chscbackend.dto.response.CombinedResponseDto;
+import ua.dlc.chscbackend.dto.request.UserMessageRequestDto;
 import ua.dlc.chscbackend.model.News;
 import ua.dlc.chscbackend.model.Ticker;
-import ua.dlc.chscbackend.service.LlmService;
+import ua.dlc.chscbackend.service.LlmServiceImpl;
 import ua.dlc.chscbackend.service.NewsService;
 import ua.dlc.chscbackend.util.ChatMessageParser;
 
@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 @RestController
 public class LlmController {
 
-    private final LlmService llmService;
+    private final LlmServiceImpl llmService;
 
     private final NewsService newsService;
 
     private final ObjectMapper objectMapper;
 
-    public LlmController(LlmService llmService, NewsService newsService, ObjectMapper objectMapper) {
+    public LlmController(LlmServiceImpl llmService, NewsService newsService, ObjectMapper objectMapper) {
         this.llmService = llmService;
         this.newsService = newsService;
         this.objectMapper = objectMapper;
@@ -39,21 +39,22 @@ public class LlmController {
 
     @PostMapping(value = "/ask", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<String> askLlm(@RequestBody UserMessage userMessage) {
+    public Mono<String> askLlm(@RequestBody UserMessageRequestDto userMessageRequestDto) {
         // Assuming UserMessage is a class that encapsulates the user's input
-        return llmService.getChatResponse(userMessage.getContent());
+        return llmService.getChatResponse(userMessageRequestDto.getContent());
     }
 
-    @PostMapping(value = "/askNews", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<CombinedResponse> askLlmAndFetchNews(@RequestBody UserMessage userMessage) {
+    @PostMapping(value = "/askNews", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<CombinedResponseDto> askLlmAndFetchNews(@RequestBody UserMessageRequestDto userMessageRequestDto) {
         // Extract ticker from the message
-        Optional<Ticker> optionalTicker = ChatMessageParser.extractTicker(userMessage.getContent());
+        Optional<Ticker> optionalTicker = ChatMessageParser.extractTicker(userMessageRequestDto.getContent());
 
         // Fetch ChatGPT completion
-        Mono<ChatCompletionResponse> chatCompletionMono = llmService.getChatResponse(userMessage.getContent())
+        Mono<ChatCompletionResponseDto> chatCompletionMono = llmService.getChatResponse(userMessageRequestDto.getContent())
                 .handle((response, sink) -> {
                     try {
-                        sink.next(objectMapper.readValue(response, ChatCompletionResponse.class));
+                        sink.next(objectMapper.readValue(response, ChatCompletionResponseDto.class));
                     } catch (JsonProcessingException e) {
                         sink.error(new RuntimeException("Error parsing JSON", e));
                     }
@@ -67,7 +68,7 @@ public class LlmController {
         ).orElse(Mono.just(Collections.emptyList()));
 
         // Combine both Monos into a CombinedResponse
-        return Mono.zip(chatCompletionMono, latestNewsMono, CombinedResponse::new);
+        return Mono.zip(chatCompletionMono, latestNewsMono, CombinedResponseDto::new);
     }
 
 }

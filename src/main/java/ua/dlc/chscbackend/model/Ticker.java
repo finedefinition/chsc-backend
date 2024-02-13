@@ -1,5 +1,6 @@
 package ua.dlc.chscbackend.model;
 
+
 public enum Ticker {
     AAPL("Apple"),
     MSFT("Microsoft"),

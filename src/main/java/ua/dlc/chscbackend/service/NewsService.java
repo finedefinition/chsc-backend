@@ -1,7 +1,5 @@
 package ua.dlc.chscbackend.service;
 
-
-
 import ua.dlc.chscbackend.model.News;
 import ua.dlc.chscbackend.model.Ticker;
 

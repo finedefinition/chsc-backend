@@ -18,7 +18,6 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    // Constructor-based injection of the NewsService
     public NewsController(NewsService newsService) {
         this.newsService = newsService;
     }
