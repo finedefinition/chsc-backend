@@ -33,23 +33,8 @@ public class LlmController {
         return llmService.getChatResponse(userMessageRequestDto.getContent());
     }
 
-    @PostMapping(value = "/askNews", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/askNews", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<CombinedResponseDto> askLlmAndFetchNews(@RequestBody UserMessageRequestDto userMessageRequestDto) {
-        
-        // Fetch ChatGPT completion
-        Mono<ChatCompletionResponseDto> chatCompletionMono = llmService.getChatResponse(userMessageRequestDto.getContent())
-                .handle((response, sink) -> {
-                    try {
-                        sink.next(objectMapper.readValue(response, ChatCompletionResponseDto.class));
-                    } catch (JsonProcessingException e) {
-                        sink.error(new RuntimeException("Error parsing JSON", e));
-                    }
-                });
-
-        Mono<List<News>> latestNewsMono = llmService.getListMono(userMessageRequestDto);
-
-        // Combine both Mono into a CombinedResponse
-        return Mono.zip(chatCompletionMono, latestNewsMono, CombinedResponseDto::new);
+        return llmService.fetchChatAndNews(userMessageRequestDto);
     }
 }

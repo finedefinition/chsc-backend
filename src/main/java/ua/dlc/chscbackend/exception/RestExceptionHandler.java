@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler
-    public ResponseEntity<AppEntityErrorResponse> handleException(Exception exc) {
-
-        AppEntityErrorResponse error = new AppEntityErrorResponse();
-
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setException(exc.getClass().getSimpleName());
-        error.setTimeStamp(LocalDateTime.now());
-
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler
+//    public ResponseEntity<AppEntityErrorResponse> handleException(Exception exc) {
+//
+//        AppEntityErrorResponse error = new AppEntityErrorResponse();
+//
+//        error.setStatus(HttpStatus.BAD_REQUEST.value());
+//        error.setMessage(exc.getMessage());
+//        error.setException(exc.getClass().getSimpleName());
+//        error.setTimeStamp(LocalDateTime.now());
+//
+//        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+//    }
 }
 
