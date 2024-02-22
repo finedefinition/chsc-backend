@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ua.dlc.chscbackend.constants.ApplicationConstants;
 import ua.dlc.chscbackend.dto.response.NewsApiResponseDto;
 import ua.dlc.chscbackend.model.News;
 import ua.dlc.chscbackend.model.Ticker;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
         @Value("${polygon.api.key}")
         private String apiKey;
 
-        private static final String API_URL = "https://api.polygon.io/v2/reference/news?limit=100&ticker=%s&apiKey=%s&published_utc.gt=%s&published_utc.lt=%s";
+
         private final RestTemplate restTemplate = new RestTemplate();
 
         @Override
@@ -29,8 +30,7 @@ import java.util.stream.Collectors;
             String endDate = lastDate.format(DateTimeFormatter.ISO_DATE_TIME);
             String selectedTicker = ticker.name();
             String companyName = ticker.getFullName(); // Get the full name of the ticker
-            String url = String.format(API_URL, selectedTicker, apiKey, startDate, endDate);
-            System.out.println(url);
+            String url = String.format(ApplicationConstants.API_URL, selectedTicker, apiKey, startDate, endDate);
             ResponseEntity<NewsApiResponseDto> response = restTemplate.exchange(url, HttpMethod.GET, null, NewsApiResponseDto.class);
             NewsApiResponseDto newsApiResponseDto = response.getBody();
 

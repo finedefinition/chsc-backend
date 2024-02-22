@@ -8,6 +8,7 @@ public class ApplicationConstants {
         // restrict instantiation
     }
 
+    public static final String API_URL = "https://api.polygon.io/v2/reference/news?limit=100&ticker=%s&apiKey=%s&published_utc.gt=%s&published_utc.lt=%s";
     public static final LocalDateTime START_DATE = LocalDateTime
             .parse("2023-01-12T14:30:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     public static final LocalDateTime END_DATE = LocalDateTime.now();
