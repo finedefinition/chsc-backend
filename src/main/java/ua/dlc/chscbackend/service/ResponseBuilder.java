@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public interface ResponseBuilder {
 
-    Mono<CombinedResponseDto> combineLlmAndNewsResponse(Ticker ticker, LocalDateTime firstDate, LocalDateTime lastDate);
+    Mono<CombinedResponseDto> combineGoogleAndNewsResponse(Ticker ticker,
+                                                        LocalDateTime firstDate, LocalDateTime lastDate);
 
 }

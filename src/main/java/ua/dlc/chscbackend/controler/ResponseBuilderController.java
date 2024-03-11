@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import ua.dlc.chscbackend.dto.response.CombinedResponseDto;
-import ua.dlc.chscbackend.model.News;
 import ua.dlc.chscbackend.model.Ticker;
 import ua.dlc.chscbackend.service.ResponseBuilder;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 public class ResponseBuilderController {
@@ -30,7 +28,7 @@ public class ResponseBuilderController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime lastDate) {
 
         Mono<CombinedResponseDto> combinedResponseDtoMono = responseBuilder
-                .combineLlmAndNewsResponse(ticker, firstDate, lastDate);
+                .combineGoogleAndNewsResponse(ticker, firstDate, lastDate);
 
         // Use the combinedResponseDtoMono to create a Mono<ResponseEntity<CombinedResponseDto>>
         return combinedResponseDtoMono
