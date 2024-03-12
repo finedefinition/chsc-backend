@@ -20,12 +20,16 @@ public class GoogleChatServiceImpl implements GoogleChatService {
     private final String location;
     private final String modelName;
 
+    private final String credentials;
+
     public GoogleChatServiceImpl(@Value("${google.project.id}") String projectId,
                                  @Value("${google.project.location}") String location,
-                                 @Value("${google.model.name}") String modelName) {
+                                 @Value("${google.model.name}") String modelName,
+                                 @Value("${google.credentials}") String credentials) {
         this.projectId = projectId;
         this.location = location;
         this.modelName = modelName;
+        this.credentials = credentials;
     }
 
     @Override
@@ -53,4 +57,6 @@ public class GoogleChatServiceImpl implements GoogleChatService {
         }
         return ""; // Return an empty string if the pattern is not found
     }
+
+
 }
