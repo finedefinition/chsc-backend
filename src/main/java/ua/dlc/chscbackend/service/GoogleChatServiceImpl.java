@@ -20,16 +20,12 @@ public class GoogleChatServiceImpl implements GoogleChatService {
     private final String location;
     private final String modelName;
 
-    private final String credentials;
-
-    public GoogleChatServiceImpl(@Value("${google.project.id}") String projectId,
+    public GoogleChatServiceImpl(@Value("${spring.cloud.gcp.project-id}") String projectId,
                                  @Value("${google.project.location}") String location,
-                                 @Value("${google.model.name}") String modelName,
-                                 @Value("${google.credentials}") String credentials) {
+                                 @Value("${google.model.name}") String modelName) {
         this.projectId = projectId;
         this.location = location;
         this.modelName = modelName;
-        this.credentials = credentials;
     }
 
     @Override
